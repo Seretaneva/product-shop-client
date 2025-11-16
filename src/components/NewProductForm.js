@@ -14,25 +14,23 @@ function NewProductForm({ onAdd }) {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
 
-  // Fetch categories la mount
   useEffect(() => {
-    fetch("http://localhost:8080/api/categories")
+    fetch("http://localhost:8080/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.error(err));
   }, []);
 
-  // Fetch subcategories cand se schimba category
   useEffect(() => {
     if (product.category) {
-      fetch(`http://localhost:8080/api/subcategories/by-category/${product.category}`)
+      fetch(`http://localhost:8080/subcategories/by-category/${product.category}`)
         .then((res) => res.json())
         .then((data) => setSubCategories(data))
         .catch((err) => console.error(err));
     } else {
       setSubCategories([]);
     }
-    setProduct((prev) => ({ ...prev, subCategory: "" })); // reset subCategory
+    setProduct((prev) => ({ ...prev, subCategory: "" }));
   }, [product.category]);
 
   const handleChange = (e) => {
@@ -43,12 +41,12 @@ function NewProductForm({ onAdd }) {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
-  // Cream un obiect ready for backend
+ 
   const payload = {
     ...product,
-    // Transformam subCategory din id in obiect { id: ... }
+    
     subCategory: product.subCategory ? { id: product.subCategory } : null,
-    // optional: daca ai si Category ca obiect, la fel poti face { id: product.category }
+  
     category: product.category ? { id: product.category } : null,
   };
 
@@ -59,7 +57,6 @@ function NewProductForm({ onAdd }) {
       body: JSON.stringify(payload),
     });
 
-    // Reset form
     setProduct({
       name: "",
       description: "",
@@ -70,7 +67,7 @@ function NewProductForm({ onAdd }) {
       quantity: 0,
     });
 
-    onAdd(); // Refresh table
+    onAdd();
   } catch (err) {
     console.error(err);
   }
@@ -92,7 +89,7 @@ function NewProductForm({ onAdd }) {
         value={product.description}
         onChange={handleChange}
       />
-      {/* Category dropdown */}
+  
       <select
         name="category"
         value={product.category}
@@ -106,7 +103,7 @@ function NewProductForm({ onAdd }) {
           </option>
         ))}
       </select>
-      {/* SubCategory dropdown */}
+  
       <select
         name="subCategory"
         value={product.subCategory}

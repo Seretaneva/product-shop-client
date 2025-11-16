@@ -27,7 +27,6 @@ function ProductTable({ refresh }) {
 
   return (
     <div>
-      {/* Filtre */}
       <div style={{ marginBottom: "10px" }}>
         <input
           type="text"
@@ -53,7 +52,6 @@ function ProductTable({ refresh }) {
         <button onClick={fetchProducts}>Filter</button>
       </div>
 
-      {/* Tabel produse */}
       <table border="1" cellPadding="5" cellSpacing="0">
         <thead>
           <tr>
