@@ -1,6 +1,8 @@
+// src/App.js
 import React, { useState } from "react";
 import ProductTable from "./components/ProductTable";
 import NewProductForm from "./components/NewProductForm";
+import "./App.css";
 
 function App() {
   const [refresh, setRefresh] = useState(false);
@@ -8,14 +10,33 @@ function App() {
   const triggerRefresh = () => setRefresh(!refresh);
 
   return (
-    <div className="App" style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1>Magazin Online Produse pentru Interviu</h1>
+    <div className="app">
+      <header className="app-header">
+        <h1 className="app-title">Magazin Online - Produse</h1>
+        <p className="app-subtitle">
+          Interviu tehnic · Administrare produse simplă și rapidă
+        </p>
+      </header>
 
-      <h2>Overview</h2>
-      <ProductTable refresh={refresh} />
+      <main className="app-content">
+        <section className="section">
+          <div className="section-header">
+            <h2>Overview</h2>
+          </div>
+          <div className="card">
+            <ProductTable refresh={refresh} />
+          </div>
+        </section>
 
-      <h2>New Product</h2>
-      <NewProductForm onAdd={triggerRefresh} />
+        <section className="section">
+          <div className="section-header">
+            <h2>Produs nou</h2>
+          </div>
+          <div className="card">
+            <NewProductForm onAdd={triggerRefresh} />
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
