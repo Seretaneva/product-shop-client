@@ -7,14 +7,18 @@ function ProductTable({ refresh }) {
   const [maxPrice, setMaxPrice] = useState("");
 
   const fetchProducts = async () => {
-    let url = "http://localhost:8080/products?";
-    if (nameFilter) url += `name=${nameFilter}&`;
-    if (minPrice) url += `minPrice=${minPrice}&`;
-    if (maxPrice) url += `maxPrice=${maxPrice}&`;
+    try {
+      let url = "http://localhost:8080/products?";
+      if (nameFilter) url += `name=${nameFilter}&`;
+      if (minPrice) url += `minPrice=${minPrice}&`;
+      if (maxPrice) url += `maxPrice=${maxPrice}&`;
 
-    const res = await fetch(url);
-    const data = await res.json();
-    setProducts(data);
+      const res = await fetch(url);
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    }
   };
 
   useEffect(() => {
@@ -23,6 +27,7 @@ function ProductTable({ refresh }) {
 
   return (
     <div>
+      {/* Filtre */}
       <div style={{ marginBottom: "10px" }}>
         <input
           type="text"
@@ -48,6 +53,7 @@ function ProductTable({ refresh }) {
         <button onClick={fetchProducts}>Filter</button>
       </div>
 
+      {/* Tabel produse */}
       <table border="1" cellPadding="5" cellSpacing="0">
         <thead>
           <tr>
@@ -65,8 +71,8 @@ function ProductTable({ refresh }) {
             <tr key={p.id}>
               <td>{p.name}</td>
               <td>{p.description}</td>
-              <td>{p.category}</td>
-              <td>{p.subCategory}</td>
+              <td>{p.categoryName || ""}</td>
+              <td>{p.subCategoryName || ""}</td>
               <td>{p.sellerName}</td>
               <td>{p.price}</td>
               <td>{p.quantity}</td>
